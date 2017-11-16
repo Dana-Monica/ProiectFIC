@@ -13,6 +13,14 @@ string
 -
 iostream
 -
+stdlib.h
+-
+netdb.h
+-
+unistd.h
+-
+netinet/in.h
+-
 opencv2/highgui/highgui.hpp
 /home/cloud/MMM/ProiectFIC/opencv2/highgui/highgui.hpp
 opencv2/opencv.hpp

@@ -3,7 +3,7 @@
 #include <iostream>
 #include<stdlib.h>
 #include <netdb.h>
-#include<unistd.h>
+#include <unistd.h>
 #include <netinet/in.h>
 
 //#include <opencv2\highgui.h>
@@ -22,6 +22,7 @@ int S_MIN = 0;
 int S_MAX = 256;
 int V_MIN = 0;
 int V_MAX = 256;
+int coordX,coordY,var1,var2;
 //default capture width and height
 const int FRAME_WIDTH = 640;
 const int FRAME_HEIGHT = 480;
@@ -180,18 +181,20 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 		}
 		else putText(cameraFeed, "TOO MUCH NOISE! ADJUST FILTER", Point(0, 50), 1, 2, Scalar(0, 0, 255), 2);
 	}
+ coordX=x;
+ coordY=y;
 }
 
-void comenzi(char *ip ,int port, char *c) {
+/*void comenzi(char *ip ,int port, char *c) {
    int sockfd, n;
    struct sockaddr_in serv_addr;
    struct hostent *server;
    
-   char buffer[256];
+   char buffer[256];*/
 	
    
    /* Create a socket point */
-   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+ /*  sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
    if (sockfd < 0) {
       perror("ERROR opening socket");
@@ -208,22 +211,22 @@ void comenzi(char *ip ,int port, char *c) {
    bzero((char *) &serv_addr, sizeof(serv_addr));
    serv_addr.sin_family = AF_INET;
    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-   serv_addr.sin_port = htons(port);
+   serv_addr.sin_port = htons(port);*/
    
    /* Now connect to the server */
-   if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+ /*  if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
       perror("ERROR connecting");
       exit(1);
-   }
+   }*/
    
    /* Now ask for a message from the user, this message
       * will be read by server
    */
-   int len= strlen(c);
+/*   int len= strlen(c);
 	 for(int i=0;i<len;i++)
-   {   
+   {   */
    /* Send message to the server */
-   sprintf(str2,"%c",c[i]);
+ /*  sprintf(str2,"%c",c[i]);
      n = send(sockfd, str2, strlen(str2),0);
    
      if (n < 0) {
@@ -232,7 +235,7 @@ void comenzi(char *ip ,int port, char *c) {
      }
      unsigned int g = sleep(1);
      
-   }
+   }*/
    
    /* Now read server response 
    bzero(buffer,256);
@@ -243,12 +246,20 @@ void comenzi(char *ip ,int port, char *c) {
       exit(1);
    }*/
 
+//}
+
+void deplasare()
+{
+if (coordY-var2>0){
+  //merge jos
+}
+
 }
 
 int main(int argc, char* argv[])
 {
 
-/*	//some boolean variables for different functionality within this
+	//some boolean variables for different functionality within this
 	//program
 	bool trackObjects = true;
 	bool useMorphOps = true;
@@ -282,11 +293,16 @@ int main(int argc, char* argv[])
 
 		//store image to matrix
 		capture.read(cameraFeed);
+    while (cameraFeed.empty()){
+      usleep(1000);
+    }
 		//convert frame from BGR to HSV colorspace
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
 		//filter HSV image between values and store filtered image to
 		//threshold matrix
-		inRange(HSV, Scalar(163, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), threshold);
+   
+
+		inRange(HSV, Scalar(168, 60, 70), Scalar(H_MAX, S_MAX, V_MAX), threshold);
 
 		//perform morphological operations on thresholded image to eliminate noise
 		//and emphasize the filtered object(s)
@@ -294,11 +310,16 @@ int main(int argc, char* argv[])
 		//pass in thresholded frame to our object tracking function
 		//this function will return the x and y coordinates of the
 		//filtered object
-		trackFilteredObject(x, y, threshold, cameraFeed);
    
-		//filter HSV image between values and store filtered image to
+		trackFilteredObject(x, y, threshold, cameraFeed);
+   var1=coordX;
+   var2=coordY;
+ //  comenzi("193.226.12.217",20236,"f");
+		trackFilteredObject(x, y, threshold, cameraFeed);
+   deplasare();
+   		//filter HSV image between values and store filtered image to
 		//threshold matrix
-		inRange(HSV, Scalar(H_MIN, S_MIN, 208), Scalar(H_MAX, S_MAX, V_MAX), threshold);
+		inRange(HSV, Scalar(H_MIN, 79, 223), Scalar(91, S_MAX, V_MAX), threshold);
 
 		//perform morphological operations on thresholded image to eliminate noise
 		//and emphasize the filtered object(s)
@@ -316,10 +337,12 @@ int main(int argc, char* argv[])
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command
 		waitKey(30);
+   
+   
 	}
-*/
-  int nr = 20236;
-  comenzi("193.226.12.217",nr,"fslsfs");
+
+ /*
+  comenzi("193.226.12.217",20236,"fslsfs");*/
 	return 0;
 }
 
