@@ -22,7 +22,8 @@ int S_MIN = 0;
 int S_MAX = 256;
 int V_MIN = 0;
 int V_MAX = 256;
-int coordX,coordY,var1,var2;
+int var1,var2;
+int vect[2];
 //default capture width and height
 const int FRAME_WIDTH = 640;
 const int FRAME_HEIGHT = 480;
@@ -181,8 +182,7 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 		}
 		else putText(cameraFeed, "TOO MUCH NOISE! ADJUST FILTER", Point(0, 50), 1, 2, Scalar(0, 0, 255), 2);
 	}
- coordX=x;
- coordY=y;
+ 
 }
 
 /*void comenzi(char *ip ,int port, char *c) {
@@ -248,10 +248,131 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 
 //}
 
-void deplasare()
+void detecteazaFata(){
+	comenzi("193.226.12.217",20236,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
+	
+}
+
+void deplasare(int noi1, int noi2, int el1, int el2)
 {
-if (coordY-var2>0){
-  //merge jos
+if ( (noi1 >= el1) && (noi2 >= el2) ){
+  //mergem in patratul 1
+ //detectamm fata cu o functie si in functie de rezultat luam masuri
+	detecteazaFata(); // returneaza un vector de tip int cu 2 valori, noile coordonate ale noastre
+  //mergem in fata
+  if(vect[0]<=noi1 && vect[1]<=noi2)
+	{
+	comenzi("193.226.12.217",20236,"f");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	if(vect[0]>noi1 && vect[1]<noi2)
+	{
+	comenzi("193.226.12.217",20236,"lf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]<noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"rf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]>noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"llf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+}
+if ( (noi1 < el1) && (noi2 > el2) ){
+  //mergem in patratul 2
+   //detectamm fata cu o functie si in functie de rezultat luam masuri
+
+	detecteazaFata(); // returneaza un vector de tip int cu 2 valori, noile coordonate ale noastre
+  //mergem in fata
+  if(vect[0]<=noi1 && vect[1]<=noi2)
+	{
+	comenzi("193.226.12.217",20236,"rf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	if(vect[0]>noi1 && vect[1]<noi2)
+	{
+	comenzi("193.226.12.217",20236,"f");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]<noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"llf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]>noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"lf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+}
+if ( (noi1 > el1) && (noi2 < el2) ){
+  //mergem in patratul 3
+	detecteazaFata(); // returneaza un vector de tip int cu 2 valori, noile coordonate ale noastre
+  //mergem in fata
+  if(vect[0]<=noi1 && vect[1]<=noi2)
+	{
+	comenzi("193.226.12.217",20236,"lf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	if(vect[0]>noi1 && vect[1]<noi2)
+	{
+	comenzi("193.226.12.217",20236,"llf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]<noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"f");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]>noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"rf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+}
+if ( (noi1 < el1) && (noi2 < el2) ){
+  //mergem in patratul 4
+	detecteazaFata(); // returneaza un vector de tip int cu 2 valori, noile coordonate ale noastre
+  //mergem in fata
+  if(vect[0]<=noi1 && vect[1]<=noi2)
+	{
+	comenzi("193.226.12.217",20236,"llf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	if(vect[0]>noi1 && vect[1]<noi2)
+	{
+	comenzi("193.226.12.217",20236,"rf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]<noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"lf");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
+	  if(vect[0]>noi1 && vect[1]>noi2)
+	{
+	comenzi("193.226.12.217",20236,"f");
+	sleep(1);
+ 	comenzi("193.226.12.217",20236,"s");
+	}
 }
 
 }
@@ -292,10 +413,11 @@ int main(int argc, char* argv[])
 
 
 		//store image to matrix
-		capture.read(cameraFeed);
+	capture.read(cameraFeed);
     while (cameraFeed.empty()){
-      usleep(1000);
+      sleep(1);
     }
+		while((var1 >= 0) && (var1 < 500) && (var2 >= 0) && (var2 < 500) && (x >= 0) && (x < 500) && (y >= 0) && (y < 500)){
 		//convert frame from BGR to HSV colorspace
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
 		//filter HSV image between values and store filtered image to
@@ -312,11 +434,12 @@ int main(int argc, char* argv[])
 		//filtered object
    
 		trackFilteredObject(x, y, threshold, cameraFeed);
-   var1=coordX;
-   var2=coordY;
- //  comenzi("193.226.12.217",20236,"f");
-		trackFilteredObject(x, y, threshold, cameraFeed);
-   deplasare();
+		//salvam coordonatele obiectului roz
+		var1 = x;
+		var2 = y;
+
+ 
+
    		//filter HSV image between values and store filtered image to
 		//threshold matrix
 		inRange(HSV, Scalar(H_MIN, 79, 223), Scalar(91, S_MAX, V_MAX), threshold);
@@ -328,6 +451,11 @@ int main(int argc, char* argv[])
 		//this function will return the x and y coordinates of the
 		//filtered object
 		trackFilteredObject(x, y, threshold, cameraFeed);
+		
+		//incepem strategia
+		
+		deplasare(var1, var2, x, y);
+
 
 		//show frames
 		imshow(windowName2, threshold);
@@ -337,12 +465,11 @@ int main(int argc, char* argv[])
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command
 		waitKey(30);
-   
-   
 	}
 
- /*
-  comenzi("193.226.12.217",20236,"fslsfs");*/
+	}
+
+ 
 	return 0;
 }
 
