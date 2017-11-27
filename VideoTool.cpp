@@ -184,17 +184,16 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 	}
  
 }
-
-/*void comenzi(char *ip ,int port, char *c) {
+/*
+void comenzi(char *ip ,int port, char *c) {
    int sockfd, n;
    struct sockaddr_in serv_addr;
    struct hostent *server;
    
-   char buffer[256];*/
+   char buffer[256];
 	
    
-   /* Create a socket point */
- /*  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+   sockfd = socket(AF_INET, SOCK_STREAM, 0);
    
    if (sockfd < 0) {
       perror("ERROR opening socket");
@@ -211,22 +210,19 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
    bzero((char *) &serv_addr, sizeof(serv_addr));
    serv_addr.sin_family = AF_INET;
    bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
-   serv_addr.sin_port = htons(port);*/
+   serv_addr.sin_port = htons(port);
    
-   /* Now connect to the server */
- /*  if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
+   if (connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
       perror("ERROR connecting");
       exit(1);
-   }*/
+   }
    
-   /* Now ask for a message from the user, this message
-      * will be read by server
-   */
-/*   int len= strlen(c);
+
+  int len= strlen(c);
 	 for(int i=0;i<len;i++)
-   {   */
-   /* Send message to the server */
- /*  sprintf(str2,"%c",c[i]);
+   {   
+  
+   sprintf(str2,"%c",c[i]);
      n = send(sockfd, str2, strlen(str2),0);
    
      if (n < 0) {
@@ -235,24 +231,62 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
      }
      unsigned int g = sleep(1);
      
-   }*/
+   }
    
-   /* Now read server response 
+
    bzero(buffer,256);
    n = read(sockfd, buffer, 255);
    
    if (n < 0) {
       perror("ERROR reading from socket");
       exit(1);
-   }*/
+   }
 
-//}
-
-void detecteazaFata(){
-	comenzi("193.226.12.217",20236,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
-	
 }
+*/
+/*
+void detecteazaFata(){
+	comenzi("193.226.12.217",20232,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
+	//Matrix to store each frame of the webcam feed
+	Mat cameraFeed;
+	//matrix storage for HSV image
+	Mat HSV;
+	//matrix storage for binary threshold image
+	Mat threshold;
+	//x and y values for the location of the object
+	int x = 0, y = 0;
+	//create slider bars for HSV filtering
+	createTrackbars();
+	//video capture object to acquire webcam feed
+	VideoCapture capture;
+	//open capture object at location zero (default location for webcam), an ip
+	capture.open("rtmp://172.16.254.99/live/nimic");
+	//set height and width of capture frame
+	capture.set(CV_CAP_PROP_FRAME_WIDTH, FRAME_WIDTH);
+	capture.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
+ 	capture.read(cameraFeed);
+  		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
+		//filter HSV image between values and store filtered image to
+		//threshold matrix
+   
+   //rozul
+		inRange(HSV, Scalar(168, 60, 70), Scalar(H_MAX, S_MAX, V_MAX), threshold);
 
+		//perform morphological operations on thresholded image to eliminate noise
+		//and emphasize the filtered object(s)
+		morphOps(threshold);
+		//pass in thresholded frame to our object tracking function
+		//this function will return the x and y coordinates of the
+		//filtered object
+   
+		trackFilteredObject(x, y, threshold, cameraFeed);
+   printf("Am detectat fata\n");
+   
+   vect[0]=x;
+   vect[1]=y;
+}
+*/
+/*
 void deplasare(int noi1, int noi2, int el1, int el2)
 {
 if ( (noi1 >= el1) && (noi2 >= el2) ){
@@ -262,27 +296,23 @@ if ( (noi1 >= el1) && (noi2 >= el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20236,"f");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"fs");
+   printf("In deplasare\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20236,"lf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllfs");
+  printf("face stanga\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"rf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"rrrfs");
+  printf("face dreapta\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
-	{
-	comenzi("193.226.12.217",20236,"llf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+  {
+	comenzi("193.226.12.217",20232,"lllllfs");
+  printf("Se intoarce 180 grade\n");
 	}
 }
 if ( (noi1 < el1) && (noi2 > el2) ){
@@ -293,27 +323,23 @@ if ( (noi1 < el1) && (noi2 > el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20236,"rf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"rrrfs");
+  printf("face dreapta\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20236,"f");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"fs");
+ printf("in deplasare\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"llf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllllfs");
+  printf("Se intoarce 180 grade\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"lf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllfs");
+ printf("face stanga\n");
 	}
 }
 if ( (noi1 > el1) && (noi2 < el2) ){
@@ -322,27 +348,23 @@ if ( (noi1 > el1) && (noi2 < el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20236,"lf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllfs");
+  printf("face stanga\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20236,"llf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllllfs");
+  printf("Se intoarce 180 grade\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"f");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"fs");
+  printf("in deplasare\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"rf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"rrrfs");
+  printf("face dreapta\n");
 	}
 }
 if ( (noi1 < el1) && (noi2 < el2) ){
@@ -351,31 +373,27 @@ if ( (noi1 < el1) && (noi2 < el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20236,"llf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllllfs");
+  printf("Se intoarce 180 grade\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20236,"rf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"rrrfs");
+ printf("face dreapta\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"lf");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"lllfs");
+ printf("FACE STANGA\N");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20236,"f");
-	sleep(1);
- 	comenzi("193.226.12.217",20236,"s");
+	comenzi("193.226.12.217",20232,"fs");
+   printf("in deplasare\n");
 	}
 }
 
-}
+}*/
 
 int main(int argc, char* argv[])
 {
@@ -417,14 +435,14 @@ int main(int argc, char* argv[])
     while (cameraFeed.empty()){
       sleep(1);
     }
-		while((var1 >= 0) && (var1 < 500) && (var2 >= 0) && (var2 < 500) && (x >= 0) && (x < 500) && (y >= 0) && (y < 500)){
+	//	if((var1 >= 0) && (var1 < 500) && (var2 >= 0) && (var2 < 500) && (x >= 0) && (x < 500) && (y >= 0) && (y < 500)){
 		//convert frame from BGR to HSV colorspace
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
 		//filter HSV image between values and store filtered image to
 		//threshold matrix
    
 
-		inRange(HSV, Scalar(168, 60, 70), Scalar(H_MAX, S_MAX, V_MAX), threshold);
+		inRange(HSV, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), threshold);
 
 		//perform morphological operations on thresholded image to eliminate noise
 		//and emphasize the filtered object(s)
@@ -442,7 +460,7 @@ int main(int argc, char* argv[])
 
    		//filter HSV image between values and store filtered image to
 		//threshold matrix
-		inRange(HSV, Scalar(H_MIN, 79, 223), Scalar(91, S_MAX, V_MAX), threshold);
+		inRange(HSV, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), threshold);
 
 		//perform morphological operations on thresholded image to eliminate noise
 		//and emphasize the filtered object(s)
@@ -454,20 +472,20 @@ int main(int argc, char* argv[])
 		
 		//incepem strategia
 		
-		deplasare(var1, var2, x, y);
+	//	deplasare(var1, var2, x, y);
 
 
 		//show frames
 		imshow(windowName2, threshold);
 		imshow(windowName, cameraFeed);
-		//imshow(windowName1, HSV);
+	//	imshow(windowName1, HSV);
 		setMouseCallback("Original Image", on_mouse, &p);
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command
 		waitKey(30);
 	}
 
-	}
+//	}
 
  
 	return 0;
