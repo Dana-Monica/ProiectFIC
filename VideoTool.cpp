@@ -23,7 +23,10 @@ int S_MAX = 256;
 int V_MIN = 0;
 int V_MAX = 256;
 int var1,var2;
+char comm[7];
 int vect[2];
+int port=20232;
+char sir1[15]="193.226.12.217";
 //default capture width and height
 const int FRAME_WIDTH = 640;
 const int FRAME_HEIGHT = 480;
@@ -246,7 +249,7 @@ void comenzi(char *ip ,int port, char *c) {
 */
 /*
 void detecteazaFata(){
-	comenzi("193.226.12.217",20232,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
+	comenzi(sir1,port,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
 	//Matrix to store each frame of the webcam feed
 	Mat cameraFeed;
 	//matrix storage for HSV image
@@ -296,22 +299,22 @@ if ( (noi1 >= el1) && (noi2 >= el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20232,"fs");
+	strcpy(comm,"fs");
    printf("In deplasare\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllfs");
+	strcpy(comm,"lllfs");
   printf("face stanga\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"rrrfs");
+	strcpy(comm,"rrrfs");
   printf("face dreapta\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
   {
-	comenzi("193.226.12.217",20232,"lllllfs");
+	strcpy(comm,"lllllfs");
   printf("Se intoarce 180 grade\n");
 	}
 }
@@ -323,22 +326,22 @@ if ( (noi1 < el1) && (noi2 > el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20232,"rrrfs");
+	strcpy(comm,"rrrfs");
   printf("face dreapta\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20232,"fs");
+	strcpy(comm,"fs");
  printf("in deplasare\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllllfs");
+	strcpy(comm,"lllllfs");
   printf("Se intoarce 180 grade\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllfs");
+	strcpy(comm,"lllfs");
  printf("face stanga\n");
 	}
 }
@@ -348,22 +351,22 @@ if ( (noi1 > el1) && (noi2 < el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllfs");
+	strcpy(comm,"lllfs");
   printf("face stanga\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllllfs");
+	strcpy(comm,"lllllfs");
   printf("Se intoarce 180 grade\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"fs");
+	strcpy(comm,"fs");
   printf("in deplasare\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"rrrfs");
+	strcpy(comm,"rrrfs");
   printf("face dreapta\n");
 	}
 }
@@ -373,26 +376,26 @@ if ( (noi1 < el1) && (noi2 < el2) ){
   //mergem in fata
   if(vect[0]<=noi1 && vect[1]<=noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllllfs");
+	strcpy(comm,"lllllfs");
   printf("Se intoarce 180 grade\n");
 	}
 	if(vect[0]>noi1 && vect[1]<noi2)
 	{
-	comenzi("193.226.12.217",20232,"rrrfs");
+	strcpy(comm,"rrrfs");
  printf("face dreapta\n");
 	}
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"lllfs");
- printf("FACE STANGA\N");
+	strcpy(comm,"lllfs");
+ printf("face stanga\N");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
-	comenzi("193.226.12.217",20232,"fs");
+	strcpy(comm,"fs");
    printf("in deplasare\n");
 	}
 }
-
+comenzi(sir1,port,comm);
 }*/
 
 int main(int argc, char* argv[])
