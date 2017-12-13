@@ -403,8 +403,6 @@ int main(int argc, char* argv[])
 
 	//some boolean variables for different functionality within this
 	//program
-	bool trackObjects = true;
-	bool useMorphOps = true;
 
 	Point p;
 	//Matrix to store each frame of the webcam feed
@@ -465,7 +463,7 @@ int main(int argc, char* argv[])
 		//threshold matrix
 		inRange(HSV, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), threshold);
 
-		//perform morphological operations on thresholded image to eliminate noise
+		//perform morphological operations on thresholded image to ELIMINATE NOISE
 		//and emphasize the filtered object(s)
 		morphOps(threshold);
 		//pass in thresholded frame to our object tracking function
