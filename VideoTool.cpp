@@ -189,7 +189,7 @@ void trackFilteredObject(int &x, int &y, Mat threshold, Mat &cameraFeed) {
 	}
  
 }
-/*
+
 void comenzi(char *ip ,int port, char *c) {
    int sockfd, n;
    struct sockaddr_in serv_addr;
@@ -248,10 +248,11 @@ void comenzi(char *ip ,int port, char *c) {
    }
 
 }
-*/
-/*
+
+
 void detecteazaFata(){
-	comenzi(sir1,port,"fs"); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
+strcpy(comm,"fs");
+	comenzi(sir1,port,comm); // s-au modificat coordonatele,apelezi trackfilter si iti da noile coordonate
 	//Matrix to store each frame of the webcam feed
 	Mat cameraFeed;
 	//matrix storage for HSV image
@@ -290,8 +291,7 @@ void detecteazaFata(){
    vect[0]=x;
    vect[1]=y;
 }
-*/
-/*
+
 void deplasare(int noi1, int noi2, int el1, int el2)
 {
 if ( (noi1 >= el1) && (noi2 >= el2) ){
@@ -389,7 +389,7 @@ if ( (noi1 < el1) && (noi2 < el2) ){
 	  if(vect[0]<noi1 && vect[1]>noi2)
 	{
 	strcpy(comm,"lllfs");
- printf("face stanga\N");
+ printf("face stanga\n");
 	}
 	  if(vect[0]>noi1 && vect[1]>noi2)
 	{
@@ -398,7 +398,7 @@ if ( (noi1 < el1) && (noi2 < el2) ){
 	}
 }
 comenzi(sir1,port,comm);
-}*/
+}
 
 int main(int argc, char* argv[])
 {
@@ -426,9 +426,6 @@ int main(int argc, char* argv[])
 	capture.set(CV_CAP_PROP_FRAME_HEIGHT, FRAME_HEIGHT);
 	//start an infinite loop where webcam feed is copied to cameraFeed matrix
 	//all of our operations will be performed within this loop
-
-
-
 	
 	while (1) {
 
@@ -438,7 +435,7 @@ int main(int argc, char* argv[])
     while (cameraFeed.empty()){
       sleep(1);
     }
-	//	if((var1 >= 0) && (var1 < 500) && (var2 >= 0) && (var2 < 500) && (x >= 0) && (x < 500) && (y >= 0) && (y < 500)){
+	
 		//convert frame from BGR to HSV colorspace
 		cvtColor(cameraFeed, HSV, COLOR_BGR2HSV);
 		//filter HSV image between values and store filtered image to
@@ -474,8 +471,8 @@ int main(int argc, char* argv[])
 		trackFilteredObject(x, y, threshold, cameraFeed);
 		
 		//incepem strategia
-		
-	//	deplasare(var1, var2, x, y);
+			if((var1 != 0) && (var2 != 0) && (x != 0) && (y != 0) ){
+		deplasare(var1, var2, x, y);
 
 
 		//show frames
@@ -486,8 +483,8 @@ int main(int argc, char* argv[])
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command
 		waitKey(30);
-/*	}
-   		else 
+	}
+   	/*	else 
 		{
 		 	int n = shutdown(id_socket,2);  //inchidem socketull, Stop both reception and transmission.
 			if (n!=0)
