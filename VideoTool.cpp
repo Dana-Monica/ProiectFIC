@@ -16,6 +16,7 @@ using namespace cv;
 //initial min and max HSV filter values.
 //these will be changed using trackbars
 char str2[10];
+int id_socket;
 int H_MIN = 0;
 int H_MAX = 256;
 int S_MIN = 0;
@@ -202,7 +203,7 @@ void comenzi(char *ip ,int port, char *c) {
       perror("ERROR opening socket");
       exit(1);
    }
-	
+   id_socket = sockfd;
    server = gethostbyname(ip);
    
    if (server == NULL) {
@@ -484,9 +485,20 @@ int main(int argc, char* argv[])
 		//delay 30ms so that screen can refresh.
 		//image will not appear without this waitKey() command
 		waitKey(30);
-	}
+/*	}
+   		else 
+		{
+		 	int n = shutdown(id_socket,2);  //inchidem socketull, Stop both reception and transmission.
+			if (n!=0)
+			{
+			perror("Eroare la inchiderea socketului");
+			exit(1);
+			}
+			break; // noi sau adversarul a iesit din joc => jocul e gata
+		}
+	*/
 
-//	}
+	}
 
  
 	return 0;
